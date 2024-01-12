@@ -24,30 +24,18 @@
 import { Box, Grid } from "@chakra-ui/react";
 
 // Custom components
-import { getdummyUser } from "api/Profile";
-import { useEffect, useState } from "react";
-import Banner from "views/admin/profile/components/Banner";
+import { useState } from "react";
 import General from "views/admin/profile/components/General";
-import Projects from "views/admin/profile/components/Projects";
 
 // Assets
 import banner from "assets/img/auth/banner.png";
 import avatar from "assets/img/avatars/avatar4.png";
-import { Spinner } from '@chakra-ui/react'
+import Banner2 from "./components/Banner2";
 
 export default function Overview() {
   const[data,setData]=useState(null);
   const[loading,setLoading]=useState(true);
 
-  useEffect(()=>{
-
-    getdummyUser().then((res)=>{
-      console.log(res);
-      setData(res)
-      setLoading(false);
-    })
-   
-  },[])
 
 
 
@@ -56,17 +44,15 @@ export default function Overview() {
       {/* Main Fields */}
       <Grid
         gap={{ base: "20px", xl: "20px" }}>
-          {loading? <Spinner></Spinner>:
-        <Banner
+        <Banner2
           gridArea='1 / 1 / 2 / 2'
           banner={banner}
           avatar={avatar}
-          name={data?.data.firstname}
-          job={data?.data.username}
+          
           posts='17'
           followers='9.7k'
           following='274'
-        />}
+        />
       </Grid>
       <Grid
         mb='20px'

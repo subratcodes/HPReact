@@ -2,17 +2,46 @@
 import { Avatar, Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import Card from "components/card/Card.js";
 
-export default function Banner(props) {
+import { Spinner } from '@chakra-ui/react';
+import { getdummyUser } from "api/Profile";
+import { useEffect, useState } from "react";
+
+
+
+export default function Banner2(props) {
   const { banner, avatar, name, job, posts, followers, following } = props;
   // Chakra Color Mode
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
   const textColorSecondary = "gray.400";
+
   const borderColor = useColorModeValue(
     "white !important",
     "#111C44 !important"
   );
+
+  const[loading,setLoading]=useState(true);
+  const[data,setData]=useState(null);
+
+
+  useEffect(()=>{
+
+    getdummyUser().then((res)=>{
+        console.log(res);
+        setData(res)
+        setLoading(false);
+      })
+
+    // setTimeout(()=>{
+    //     setData([]);
+    //     setLoading(false);
+    // },2000)
+
+  },[])
+
+ 
   return (
     <Card mb={{ base: "0px", lg: "20px" }} align='center'>
+    {loading?<Spinner align='center'></Spinner>:<>
       <Box
         bg={`url(${banner})`}
         bgSize='cover'
@@ -30,7 +59,7 @@ export default function Banner(props) {
         borderColor={borderColor}
       />
       <Text color={textColorPrimary} fontWeight='bold' fontSize='xl' mt='10px'>
-        {name}
+        {data?.data.username}
       </Text>
       <Text color={textColorSecondary} fontSize='sm'>
         {job}
@@ -38,7 +67,7 @@ export default function Banner(props) {
       <Flex w='max-content' mx='auto' mt='26px'>
         <Flex mx='auto' me='60px' align='center' direction='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
-            {posts}
+            {data?.data.id}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
             Posts
@@ -61,6 +90,7 @@ export default function Banner(props) {
           </Text>
         </Flex>
       </Flex>
+     </>}
     </Card>
   );
 }
