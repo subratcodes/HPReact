@@ -14,17 +14,54 @@ import {
 // Custom components
 import Card from "components/card/Card";
 import { AndroidLogo, AppleLogo, WindowsLogo } from "components/icons/Icons";
-import Menu from "components/menu/MainMenu";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import {
   useGlobalFilter,
   usePagination,
   useSortBy,
   useTable,
 } from "react-table";
+import DevelopmentTableMenu from "./DevelopmentTableMenu";
+
+import { useEffect, useState } from "react";
+import SpinnerTable from "./SpinnerTable";
+
+
+
+function serviceMock(){
+
+  return new Promise((res,rej)=>{
+     setTimeout(()=>{
+      res(3);
+     },2000)
+  })
+
+}
+
 
 export default function DevelopmentTable(props) {
   const { columnsData, tableData } = props;
+
+  const[load,setLoad]=useState(true);
+
+   
+
+  function mockAPICall(){
+
+    setLoad(true);
+
+    serviceMock().then((res)=>{
+      console.log(res);
+      setLoad(false);
+    })
+
+  }
+
+
+  useEffect(()=>{
+    mockAPICall();
+
+  },[])
 
   const columns = useMemo(() => columnsData, [columnsData]);
   const data = useMemo(() => tableData, [tableData]);
@@ -49,16 +86,20 @@ export default function DevelopmentTable(props) {
   } = tableInstance;
   initialState.pageSize = 11;
 
-  const textColor = useColorModeValue("secondaryGray.900", "white");
-  const iconColor = useColorModeValue("secondaryGray.500", "white");
+  const textColor = useColorModeValue("secondaryGray.900", "black");
+  const iconColor = useColorModeValue("secondaryGray.500", "black");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
-  return (
+
+ 
+ return (
     <Card
       direction='column'
       w='100%'
       px='0px'
       overflowX={{ sm: "scroll", lg: "hidden" }}>
+
       <Flex px='25px' justify='space-between' mb='20px' align='center'>
+        
         <Text
           color={textColor}
           fontSize='22px'
@@ -66,11 +107,17 @@ export default function DevelopmentTable(props) {
           lineHeight='100%'>
           Development Table
         </Text>
-        <Menu />
+
+        <DevelopmentTableMenu reload={mockAPICall} />
+
       </Flex>
+
+      {load?<SpinnerTable></SpinnerTable>:
       <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
         <Thead>
           {headerGroups.map((headerGroup, index) => (
+            
+            
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
               {headerGroup.headers.map((column, index) => (
                 <Th
@@ -78,18 +125,27 @@ export default function DevelopmentTable(props) {
                   pe='10px'
                   key={index}
                   borderColor={borderColor}>
+                  {/* table component */}
                   <Flex
                     justify='space-between'
                     align='center'
                     fontSize={{ sm: "10px", lg: "12px" }}
-                    color='gray.400'>
+                    color='black.400'>
                     {column.render("Header")}
                   </Flex>
+
+
                 </Th>
               ))}
             </Tr>
+
+
           ))}
         </Thead>
+
+
+
+
         <Tbody {...getTableBodyProps()}>
           {page.map((row, index) => {
             prepareRow(row);
@@ -181,7 +237,9 @@ export default function DevelopmentTable(props) {
             );
           })}
         </Tbody>
-      </Table>
+      </Table>}
+
+
     </Card>
   );
 }

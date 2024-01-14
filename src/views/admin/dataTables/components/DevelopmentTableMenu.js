@@ -1,27 +1,26 @@
-import React from "react";
 
 // Chakra imports
 import {
-  Icon,
-  Flex,
-  Text,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  useDisclosure,
-  useColorModeValue,
+    Flex,
+    Icon,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Text,
+    useColorModeValue,
+    useDisclosure,
 } from "@chakra-ui/react";
 // Assets
 import {
-  MdOutlineMoreHoriz,
-  MdOutlinePerson,
-  MdOutlineCardTravel,
-  MdOutlineLightbulb,
-  MdOutlineSettings,
+    MdOutlineCardTravel,
+    MdOutlineLightbulb,
+    MdOutlineMoreHoriz,
+    MdOutlinePerson,
+    MdOutlineSettings,
 } from "react-icons/md";
 
-export default function Banner(props) {
+export default function DevelopmentTableMenu(props) {
   const { ...rest } = props;
 
   const textColor = useColorModeValue("secondaryGray.500", "white");
@@ -29,6 +28,7 @@ export default function Banner(props) {
     { color: "secondaryGray.900", bg: "unset" },
     { color: "secondaryGray.500", bg: "unset" }
   );
+
   const iconColor = useColorModeValue("brand.500", "white");
   const bgList = useColorModeValue("white", "whiteAlpha.100");
   const bgShadow = useColorModeValue(
@@ -45,6 +45,15 @@ export default function Banner(props) {
     { bg: "whiteAlpha.100" }
   );
 
+
+  function handelEvent(e){
+
+    e.preventDefault();
+       props.reload();
+
+  }
+
+
   // Ellipsis modals
   const {
     isOpen: isOpen1,
@@ -54,6 +63,7 @@ export default function Banner(props) {
 
   return (
     <Menu isOpen={isOpen1} onClose={onClose1}>
+
       <MenuButton
         align='center'
         justifyContent='center'
@@ -80,6 +90,8 @@ export default function Banner(props) {
         boxShadow={bgShadow}
         borderRadius='20px'
         p='15px'>
+
+
         <MenuItem
           transition='0.2s linear'
           color={textColor}
@@ -92,6 +104,7 @@ export default function Banner(props) {
           _focus={{
             bg: "transparent",
           }}
+          onClick={handelEvent}
           mb='10px'>
           <Flex align='center'>
             <Icon as={MdOutlinePerson} h='16px' w='16px' me='8px' />
@@ -100,12 +113,14 @@ export default function Banner(props) {
             </Text>
           </Flex>
         </MenuItem>
+        
         <MenuItem
           transition='0.2s linear'
           p='0px'
           borderRadius='8px'
           color={textColor}
           _hover={textHover}
+          onClick={handelEvent}
           _active={{
             bg: "transparent",
           }}
@@ -120,12 +135,14 @@ export default function Banner(props) {
             </Text>
           </Flex>
         </MenuItem>
+        
         <MenuItem
           transition='0.2s linear'
           p='0px'
           borderRadius='8px'
           color={textColor}
           _hover={textHover}
+          onClick={handelEvent}
           _active={{
             bg: "transparent",
           }}
@@ -140,10 +157,13 @@ export default function Banner(props) {
             </Text>
           </Flex>
         </MenuItem>
+
+
         <MenuItem
           transition='0.2s linear'
           color={textColor}
           _hover={textHover}
+         
           p='0px'
           borderRadius='8px'
           _active={{
@@ -152,7 +172,7 @@ export default function Banner(props) {
           _focus={{
             bg: "transparent",
           }}>
-          <Flex align='center'>
+          <Flex align='center' onClick={handelEvent}>
             <Icon as={MdOutlineSettings} h='16px' w='16px' me='8px' />
             <Text fontSize='sm' fontWeight='400'>
               Panel 4
