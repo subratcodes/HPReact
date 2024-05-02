@@ -71,6 +71,8 @@ export default function Marketplace() {
           flexDirection='column'
           gridArea={{ xl: "1 / 1 / 2 / 3", "2xl": "1 / 1 / 2 / 2" }}>
           <Banner />
+
+          
           <Flex direction='column'>
             <Flex
               mt='45px'

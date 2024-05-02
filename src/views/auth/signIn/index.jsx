@@ -21,7 +21,7 @@
 
 */
 
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 // Chakra imports
 import {
@@ -47,6 +47,7 @@ import illustration from "assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function SignIn() {
   // Chakra color mode
@@ -61,6 +62,28 @@ function SignIn() {
     { bg: "gray.200" },
     { bg: "whiteAlpha.300" }
   );
+
+  const[email,setEmail]=useState('');
+  const[password,setPassword]=useState('');
+
+  function handleSubmit(e){
+    e.preventDefault();
+    const data={email,password}
+    console.log(JSON.stringify(data));
+    console.log(data);
+    history.push('/admin/default')
+
+  }
+
+  function onChangeEmail(e){
+    console.log(e.target.value);
+    setEmail(e.target.value);
+
+  }
+
+  let history = useHistory();
+
+
   const googleActive = useColorModeValue(
     { bg: "secondaryGray.300" },
     { bg: "whiteAlpha.200" }
@@ -81,6 +104,8 @@ function SignIn() {
         px={{ base: "25px", md: "0px" }}
         mt={{ base: "40px", md: "14vh" }}
         flexDirection='column'>
+
+
         <Box me='auto'>
           <Heading color={textColor} fontSize='36px' mb='10px'>
             Sign In
@@ -94,6 +119,8 @@ function SignIn() {
             Enter your email and password to sign in!
           </Text>
         </Box>
+
+
         <Flex
           zIndex='2'
           direction='column'
@@ -104,6 +131,8 @@ function SignIn() {
           mx={{ base: "auto", lg: "unset" }}
           me='auto'
           mb={{ base: "20px", md: "auto" }}>
+
+          {/* sign in with google */}
           <Button
             fontSize='sm'
             me='0px'
@@ -120,20 +149,25 @@ function SignIn() {
             <Icon as={FcGoogle} w='20px' h='20px' me='10px' />
             Sign in with Google
           </Button>
+
+
           <Flex align='center' mb='25px'>
             <HSeparator />
             <Text color='gray.400' mx='14px'>
               or
             </Text>
             <HSeparator />
+
           </Flex>
-          <FormControl>
+          
+          <FormControl onSubmit={handleSubmit}>
             <FormLabel
               display='flex'
               ms='4px'
               fontSize='sm'
               fontWeight='500'
               color={textColor}
+              
               mb='8px'>
               Email<Text color={brandStars}>*</Text>
             </FormLabel>
@@ -142,6 +176,7 @@ function SignIn() {
               variant='auth'
               fontSize='sm'
               ms={{ base: "0px", md: "0px" }}
+              onChange={onChangeEmail}
               type='email'
               placeholder='mail@simmmple.com'
               mb='24px'
@@ -160,6 +195,7 @@ function SignIn() {
               <Input
                 isRequired={true}
                 fontSize='sm'
+                onChange={(e)=>setPassword(e.target.value)}
                 placeholder='Min. 8 characters'
                 mb='24px'
                 size='lg'
@@ -175,6 +211,7 @@ function SignIn() {
                 />
               </InputRightElement>
             </InputGroup>
+
             <Flex justifyContent='space-between' align='center' mb='24px'>
               <FormControl display='flex' alignItems='center'>
                 <Checkbox
@@ -206,11 +243,13 @@ function SignIn() {
               variant='brand'
               fontWeight='500'
               w='100%'
+              onClick={handleSubmit}
               h='50'
               mb='24px'>
               Sign In
             </Button>
           </FormControl>
+
           <Flex
             flexDirection='column'
             justifyContent='center'
@@ -219,6 +258,8 @@ function SignIn() {
             mt='0px'>
             <Text color={textColorDetails} fontWeight='400' fontSize='14px'>
               Not registered yet?
+
+{/* 
               <NavLink to='/auth/sign-up'>
                 <Text
                   color={textColorBrand}
@@ -227,7 +268,8 @@ function SignIn() {
                   fontWeight='500'>
                   Create an Account
                 </Text>
-              </NavLink>
+              </NavLink> */}
+
             </Text>
           </Flex>
         </Flex>

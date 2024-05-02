@@ -16,6 +16,8 @@ export default function Auth() {
   const getRoute = () => {
     return window.location.pathname !== "/auth/full-screen-maps";
   };
+
+  
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/auth") {
@@ -37,6 +39,8 @@ export default function Auth() {
       }
     });
   };
+
+
   const authBg = useColorModeValue("white", "navy.900");
   document.documentElement.dir = "ltr";
   return (

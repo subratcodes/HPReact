@@ -9,7 +9,7 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/card/Card";
@@ -22,7 +22,6 @@ import {
   useTable,
 } from "react-table";
 import DevelopmentTableMenu from "./DevelopmentTableMenu";
-
 import { useEffect, useState } from "react";
 import SpinnerTable from "./SpinnerTable";
 
@@ -35,6 +34,15 @@ function serviceMock(){
       res(3);
      },2000)
   })
+}
+
+function serviceMockFail(){
+
+  return new Promise((res,rej)=>{
+    setTimeout(()=>{
+      rej("HTTP error")
+    },200)
+  },)
 
 }
 
@@ -42,10 +50,27 @@ function serviceMock(){
 export default function DevelopmentTable(props) {
   const { columnsData, tableData } = props;
 
+  const[error,setError]=useState({value:true,message:null});
   const[load,setLoad]=useState(true);
 
-   
 
+  async function apiMockFailure(){
+    try {
+
+     await serviceMockFail();
+      
+    } catch (error) {
+      setError({value:true,message:error.message})
+
+      setTimeout(()=>{
+        setError({value:false,message:''});
+      },2000)
+
+    }
+  
+ }
+
+   
   function mockAPICall(){
 
     setLoad(true);
@@ -108,7 +133,7 @@ export default function DevelopmentTable(props) {
           Development Table
         </Text>
 
-        <DevelopmentTableMenu reload={mockAPICall} />
+        <DevelopmentTableMenu reload={mockAPICall} mockAPIFail={apiMockFailure}  />
 
       </Flex>
 
@@ -142,8 +167,6 @@ export default function DevelopmentTable(props) {
 
           ))}
         </Thead>
-
-
 
 
         <Tbody {...getTableBodyProps()}>
